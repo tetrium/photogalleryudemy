@@ -12,6 +12,7 @@ interface IGallery {
         fun getFragmentView():android.view.View
 
         fun getImagesHolder(): Koloda
+        fun onImagesLoaded()
     }
     interface  Presenter{
         fun configureView()

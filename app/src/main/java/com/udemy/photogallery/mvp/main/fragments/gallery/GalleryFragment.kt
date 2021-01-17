@@ -28,7 +28,7 @@ class GalleryFragment(var mainPresenter: IMain.Presenter):Fragment(),IGallery.Vi
 
         var view=inflater.inflate(R.layout.fragment_images,container,false)
         fragmentView=view
-        mainPresenter.fragmentWasLoaded()
+
 
 
         galleryPresenter.configureView()
@@ -47,6 +47,10 @@ class GalleryFragment(var mainPresenter: IMain.Presenter):Fragment(),IGallery.Vi
 
     override fun getImagesHolder(): Koloda {
         return imagesHolder
+    }
+
+    override fun onImagesLoaded() {
+        mainPresenter.fragmentWasLoaded()
     }
 
 

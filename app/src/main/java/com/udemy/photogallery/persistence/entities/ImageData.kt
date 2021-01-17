@@ -7,6 +7,12 @@ class ImageData {
     var imageName=""
 
 
+    constructor(imageId:Int,imageResId:Int,imageName:String){
+        this.imageId=imageId
+        this.imageResId=imageResId
+        this.imageName=imageName
+
+    }
 
 
 }
