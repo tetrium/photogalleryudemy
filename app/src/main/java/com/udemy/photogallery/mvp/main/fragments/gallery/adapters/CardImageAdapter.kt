@@ -50,7 +50,7 @@ class CardImageAdapter(val context: Context, val data:ArrayList<ImageData>) :Bas
         internal  fun bindData(context:Context,data:ImageData){
             view.imageNameTextView.text=data.imageName
             Glide.with(context)
-                .load(data.imageResId)
+                .load(data.imageUrl)
                 .into(view.imageHolderView)
         }
 
