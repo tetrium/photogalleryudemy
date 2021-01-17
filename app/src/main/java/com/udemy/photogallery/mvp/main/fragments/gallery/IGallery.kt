@@ -16,7 +16,7 @@ interface IGallery {
     }
     interface  Presenter{
         fun configureView()
-
+        fun getContext():Context
         fun onServerResponse(images:ArrayList<ImageData>)
 
     }

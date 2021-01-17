@@ -7,6 +7,7 @@ class ImageData {
     var imageUrl=""
     var imageName=""
 
+    var hasUserLike=false
 
     /*constructor(imageId:Int,imageResId:Int,imageName:String){
         this.imageId=imageId

@@ -10,7 +10,13 @@ import com.udemy.photogallery.mvp.main.fragments.settings.SettingsFragment
 class MainPresenter(private var mainView:IMain.View):IMain.Presenter {
 
 
+
+    private var currentIndex=0
+    private var fragmentIsLoading=false
     override fun onBottomClick(menuItem: MenuItem) {
+        if(fragmentIsLoading) return
+
+        fragmentIsLoading=true
         mainView.showProgressBar()
         var fragment:Fragment?=null
         var fragmentIndex=0
@@ -35,12 +41,17 @@ class MainPresenter(private var mainView:IMain.View):IMain.Presenter {
         }
 
 
-        if(fragment!=null){
+        if(fragment!=null&&currentIndex!=fragmentIndex){
             mainView.showFragment(fragment,fragmentIndex)
 
+        }else if(currentIndex==fragmentIndex){
+
+            mainView.hideProgressBar()
+            fragmentIsLoading=false
         }
 
 
+        currentIndex=fragmentIndex
 
     }
 
@@ -49,6 +60,7 @@ class MainPresenter(private var mainView:IMain.View):IMain.Presenter {
 
             mainView.hideProgressBar()
             mainView.showFrame()
+            fragmentIsLoading=false
         },300)
     }
 

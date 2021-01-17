@@ -49,6 +49,7 @@ card_view:cardPreventCornerOverlap="false">
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/likeButton"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -58,6 +59,7 @@ card_view:cardPreventCornerOverlap="false">
 
 
         <ImageButton
+            android:id="@+id/shareButton"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/selectableItemBackgroundBorderless"

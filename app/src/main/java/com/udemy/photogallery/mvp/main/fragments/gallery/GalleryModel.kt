@@ -3,9 +3,14 @@ package com.udemy.photogallery.mvp.main.fragments.gallery
 import android.os.Handler
 import com.udemy.photogallery.R
 import com.udemy.photogallery.persistence.entities.ImageData
+import com.udemy.photogallery.persistence.sqllite.SqlLiteDatabaseManager
 import com.udemy.photogallery.persistence.webapi.ImagesService
 import com.udemy.photogallery.persistence.webapi.ImagesServiceResponse
 import com.udemy.photogallery.persistence.webapi.ServiceBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
 
@@ -20,27 +25,46 @@ class GalleryModel(private var galleryPresenter:IGallery.Presenter):IGallery.Mod
         val webApi=ServiceBuilder.buildService(ImagesService::class.java )
         val requestCall=webApi.getImages()
 
-        requestCall.enqueue(object:retrofit2.Callback<ImagesServiceResponse>{
-            override fun onResponse(
-                call: Call<ImagesServiceResponse>,
-                httpResponse: Response<ImagesServiceResponse>
-            ) {
+                requestCall.enqueue(object:retrofit2.Callback<ImagesServiceResponse>{
+                    override fun onResponse(
+                        call: Call<ImagesServiceResponse>,
+                        httpResponse: Response<ImagesServiceResponse>
+                    ) {
 
-                var responseImages=httpResponse.body()
-                if(responseImages!=null) {
-                    galleryPresenter.onServerResponse(responseImages.images as ArrayList<ImageData>)
-                }
-            }
-
-            override fun onFailure(call: Call<ImagesServiceResponse>, t: Throwable) {
-
-            }
+                        var responseImages=httpResponse.body()
+                        if(responseImages!=null) {
 
 
-         }
+                            GlobalScope.launch (Dispatchers.IO) {
+                                for (i in 0 until responseImages.images.size) {
+                                    var dbManager =
+                                        SqlLiteDatabaseManager.getDatabase(galleryPresenter.getContext())
+                                    var favoriteImage = dbManager.getFavoriteImageDAO()
+                                        .getFavoriteImage(responseImages.images[i].imageId)
+
+                                    if (favoriteImage != null) {
+                                        responseImages.images[i].hasUserLike = true
+                                    }
+                                }
 
 
-        )
+                                withContext(Dispatchers.Main) {
+                                    galleryPresenter.onServerResponse(responseImages.images as ArrayList<ImageData>)
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ImagesServiceResponse>, t: Throwable) {
+
+                    }
+
+
+                 }
+
+
+                )
+
 
 
 
