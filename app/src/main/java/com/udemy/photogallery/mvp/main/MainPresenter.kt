@@ -4,9 +4,8 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.udemy.photogallery.R
 import com.udemy.photogallery.mvp.main.fragments.favorites.FavoritesFragment
-import com.udemy.photogallery.mvp.main.fragments.images.ImagesFragment
+import com.udemy.photogallery.mvp.main.fragments.gallery.GalleryFragment
 import com.udemy.photogallery.mvp.main.fragments.settings.SettingsFragment
-import java.util.logging.Handler
 
 class MainPresenter(private var mainView:IMain.View):IMain.Presenter {
 
@@ -25,7 +24,7 @@ class MainPresenter(private var mainView:IMain.View):IMain.Presenter {
 
             R.id.navigationGallery->{
 
-                fragment=ImagesFragment(this)
+                fragment=GalleryFragment(this)
                 fragmentIndex=1
             }
             R.id.navigationSettings->{
